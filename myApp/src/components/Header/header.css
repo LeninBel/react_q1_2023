@@ -1,0 +1,16 @@
+.header{
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav{
+  display: flex;
+  gap: 1rem;
+  justify-content: space-around;
+}
+
+.header a:link {
+  text-decoration: none;
+}
