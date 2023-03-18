@@ -18,12 +18,16 @@ class Card extends React.Component<IProps> {
         <img src={imgUrl} alt="book_cover" className="card__image" />
         <div className="card_content">
           <div className="card_content__header">
-            <p className="card_content__category">{category}</p>
-            <p className="card_content__title">{title}</p>
+            <p className="card_content__category" data-testid="category">
+              {category}
+            </p>
+            <p className="card_content__title" data-testid="title">
+              {title}
+            </p>
           </div>
           <div className="card_content__footer">
             <hr />
-            <p className="card_content__author">{`by ${author}`}</p>
+            <p className="card_content__author" data-testid="author">{`by ${author}`}</p>
           </div>
         </div>
       </div>
