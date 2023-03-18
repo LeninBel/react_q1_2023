@@ -15,8 +15,12 @@ class Header extends React.Component<HeaderProps> {
       <header className="header">
         <h1>{title}</h1>
         <nav className="nav">
-          <Link to="/">Home</Link>
-          <Link to="/aboutUs">About Us</Link>
+          <Link to="/" data-testid="homeLink">
+            Home
+          </Link>
+          <Link to="/aboutUs" data-testid="aboutUsLink">
+            About Us
+          </Link>
         </nav>
       </header>
     );
