@@ -4,6 +4,7 @@ import SearchBar from '../../components/Search/searchBar';
 import books, { Book } from '../../data/mockedData';
 import filterBooks from './homePageHelper';
 import CardList from '../../components/CardList/cardList';
+import { getItem } from '../../services/localStorage/localStorageService';
 
 interface IState {
   jsBooks: Array<Book>;
@@ -13,7 +14,7 @@ interface IState {
 class HomePage extends React.Component<Record<string, never>, IState> {
   constructor(props: Record<string, never>) {
     super(props);
-    const savedSearch = localStorage.getItem('searchTerm') ?? '';
+    const savedSearch = getItem('searchTerm') ?? '';
     const filteredBooks = filterBooks(books, savedSearch);
     this.state = { jsBooks: filteredBooks, inputValue: savedSearch };
     this.handleInput = this.handleInput.bind(this);
