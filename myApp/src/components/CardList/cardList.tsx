@@ -1,26 +1,29 @@
 import React from 'react';
 import Card from '../Card/card';
-import { Book } from '../../data/mockedData';
+import books from '../../data/mockedData';
+import filterBooks from '../../pages/Home/homePageHelper';
 import './cardList.css';
 
 interface IProps {
-  books: Array<Book>;
+  searchTerm: string;
 }
 
 class CardList extends React.Component<IProps> {
   render() {
-    const { books } = this.props;
+    const { searchTerm } = this.props;
+    const filteredBooks = filterBooks(books, searchTerm);
     return (
       <div className="results">
-        {books.map((book) => (
-          <Card
-            key={book.title}
-            title={book.title}
-            image={book.image}
-            category={book.category}
-            author={book.author}
-          />
-        ))}
+        {filteredBooks &&
+          filteredBooks.map((book) => (
+            <Card
+              key={book.title}
+              title={book.title}
+              image={book.image}
+              category={book.category}
+              author={book.author}
+            />
+          ))}
       </div>
     );
   }
