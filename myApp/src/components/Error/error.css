@@ -1,0 +1,20 @@
+.error {
+    color: red;
+    font-size: x-small;
+    position: relative;
+
+}
+
+.show {
+    display: block;
+    }
+
+div[class^="error"]:not(.show) {
+display: none;
+}
+
+.error_content{
+    position: absolute;
+    margin: 0;
+    right: 0;
+}
