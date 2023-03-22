@@ -1,4 +1,4 @@
-export const isEmpty = (value: string | undefined) => value !== undefined && value.trim() === '';
+export const isEmpty = (value: string | undefined) => value === undefined || value.trim() === '';
 
 export const isStartWithUpperCase = (value: string): boolean => {
   const regex = /[A-Z]/g;

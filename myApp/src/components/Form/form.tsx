@@ -1,6 +1,5 @@
 import React from 'react';
 import Error from '../Error/error';
-import { isDateInPast, isEmpty } from './validationRules';
 import './form.css';
 import FormInput from './Input/formInput';
 import FormSelect from './Select/formSelect';
@@ -8,12 +7,30 @@ import Categories from '../../data/categoryData';
 import UploadFile from './UploadFile/uploadFile';
 import FormCheckbox from './Checkbox/formCheckbox';
 
-interface IState {
-  errors: Record<string, boolean>;
-  formData: Record<string | number | symbol, unknown>;
+interface IFormData {
+  title: string;
+  author: string;
+  releaseDate: string;
+  category: string;
+  uploadFile: File | null | undefined;
+  agree: boolean;
 }
 
-class Form extends React.Component<Record<string | number | symbol, unknown>, IState> {
+interface IFormErrorData {
+  title: boolean;
+  author: boolean;
+  releaseDate: boolean;
+  category: boolean;
+  uploadFile: boolean;
+  agree: boolean;
+}
+
+interface IProps {
+  errors: IFormErrorData;
+  onSubmit: (formData: IFormData, onSuccess: () => void) => void;
+}
+
+class Form extends React.Component<IProps> {
   titleRef: React.RefObject<HTMLInputElement>;
 
   authorRef: React.RefObject<HTMLInputElement>;
@@ -26,10 +43,8 @@ class Form extends React.Component<Record<string | number | symbol, unknown>, IS
 
   uploadFileRef: React.RefObject<HTMLInputElement>;
 
-  constructor(props: Record<string | number | symbol, unknown>) {
+  constructor(props: IProps) {
     super(props);
-
-    this.state = { errors: {}, formData: {} };
 
     this.onSubmitForm = this.onSubmitForm.bind(this);
     this.titleRef = React.createRef();
@@ -42,28 +57,33 @@ class Form extends React.Component<Record<string | number | symbol, unknown>, IS
 
   onSubmitForm(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    this.validate();
-    const formData = new FormData(event.currentTarget);
-    console.log(formData.forEach((v, k) => console.log(v, k)));
+    const formData = this.getFormData();
+    const onSuccess = () => {
+      event.currentTarget.reset();
+    };
+    const { onSubmit } = this.props;
+    onSubmit(formData, onSuccess);
   }
 
-  validate() {
-    const currentErrors: Record<string, boolean> = {};
-    currentErrors.title = isEmpty(this.titleRef.current?.value);
-    currentErrors.author = isEmpty(this.authorRef.current?.value);
+  getFormData() {
+    const data: Record<string, string | undefined | boolean | File> = {};
+    data.title = this.titleRef.current?.value ?? '';
+    data.author = this.authorRef.current?.value ?? '';
 
-    const releaseDateValue = this.releaseDateRef.current?.value;
-    currentErrors.releaseDate = isEmpty(releaseDateValue) || !isDateInPast(releaseDateValue);
-    currentErrors.category = isEmpty(this.categoryRef.current?.value);
-    currentErrors.uploadFile = isEmpty(this.uploadFileRef.current?.value);
-    currentErrors.agree = !this.agreeCheckboxRef.current?.checked;
-    this.setState((prev) => ({ ...prev, errors: currentErrors }));
+    data.releaseDate = this.releaseDateRef.current?.value ?? '';
+    data.category = this.categoryRef.current?.value ?? '';
+    data.uploadFile =
+      this.uploadFileRef.current?.files?.length === 1
+        ? this.uploadFileRef.current?.files[0]
+        : undefined;
+    data.agree = this.agreeCheckboxRef.current?.checked ?? false;
+    return data as unknown as IFormData;
   }
 
   render() {
     const {
       errors: { title, author, releaseDate, category, agree, uploadFile },
-    } = this.state;
+    } = this.props;
 
     return (
       <div className="form">
@@ -120,6 +140,7 @@ class Form extends React.Component<Record<string | number | symbol, unknown>, IS
               label="Upload book cover"
               forwardRef={this.uploadFileRef}
             />
+            <Error error="File is not found" show={uploadFile} />
           </div>
           <div className="form__control">
             <FormCheckbox

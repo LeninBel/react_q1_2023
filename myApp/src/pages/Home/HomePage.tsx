@@ -3,6 +3,7 @@ import Header from '../../components/Header/header';
 import SearchBar from '../../components/Search/searchBar';
 import CardList from '../../components/CardList/cardList';
 import { getItem } from '../../services/localStorage/localStorageService';
+import books from '../../data/mockedData';
 
 interface IState {
   searchValue: string;
@@ -28,7 +29,7 @@ class HomePage extends React.Component<Record<string, never>, IState> {
       <>
         <Header title="Home" />
         <SearchBar inputValue={searchValue} onChange={this.handleInput} />
-        <CardList searchTerm={searchValue} />
+        <CardList books={books} searchTerm={searchValue} />
       </>
     );
   }
