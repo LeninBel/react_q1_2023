@@ -6,6 +6,7 @@ import FormSelect from './Select/formSelect';
 import Categories from '../../data/categoryData';
 import UploadFile from './UploadFile/uploadFile';
 import FormCheckbox from './Checkbox/formCheckbox';
+import FormRadio from './Radio/formRadio';
 
 interface IFormData {
   title: string;
@@ -14,6 +15,8 @@ interface IFormData {
   category: string;
   uploadFile: File | null | undefined;
   agree: boolean;
+  forSale: boolean;
+  notForSale: boolean;
 }
 
 interface IFormErrorData {
@@ -23,6 +26,7 @@ interface IFormErrorData {
   category: boolean;
   uploadFile: boolean;
   agree: boolean;
+  forSale: boolean;
 }
 
 interface IProps {
@@ -43,6 +47,10 @@ class Form extends React.Component<IProps> {
 
   uploadFileRef: React.RefObject<HTMLInputElement>;
 
+  forSaleRadioRef: React.RefObject<HTMLInputElement>;
+
+  notForSaleRadioRef: React.RefObject<HTMLInputElement>;
+
   constructor(props: IProps) {
     super(props);
 
@@ -53,6 +61,8 @@ class Form extends React.Component<IProps> {
     this.categoryRef = React.createRef();
     this.agreeCheckboxRef = React.createRef();
     this.uploadFileRef = React.createRef();
+    this.forSaleRadioRef = React.createRef();
+    this.notForSaleRadioRef = React.createRef();
   }
 
   onSubmitForm(event: React.FormEvent<HTMLFormElement>) {
@@ -77,12 +87,14 @@ class Form extends React.Component<IProps> {
         ? this.uploadFileRef.current?.files[0]
         : undefined;
     data.agree = this.agreeCheckboxRef.current?.checked ?? false;
+    data.forSale = this.forSaleRadioRef.current?.checked ?? false;
+    data.notForSale = this.notForSaleRadioRef.current?.checked ?? false;
     return data as unknown as IFormData;
   }
 
   render() {
     const {
-      errors: { title, author, releaseDate, category, agree, uploadFile },
+      errors: { title, author, releaseDate, category, agree, uploadFile, forSale },
     } = this.props;
 
     return (
@@ -132,6 +144,25 @@ class Form extends React.Component<IProps> {
             />
             <Error error="Category date is invalid" show={category} />
           </div>
+          <div className="form__control">
+            <fieldset className={`radio_group ${forSale ? 'radio_group--error' : ''}`}>
+              <legend className="form__label">Is this book for clearance sale?</legend>
+              <FormRadio
+                id="forSale"
+                label="Yes"
+                name="forSale"
+                forwardRef={this.forSaleRadioRef}
+              />
+              <FormRadio
+                id="notForSale"
+                label="No"
+                name="notForSale"
+                forwardRef={this.notForSaleRadioRef}
+              />
+            </fieldset>
+            <Error error="Please select an option" show={forSale} />
+          </div>
+
           <div className="form__control">
             <UploadFile
               hasError={uploadFile}

@@ -24,6 +24,7 @@ class CardList extends React.Component<IProps> {
               category={book.category}
               author={book.author}
               releaseDate={book.releaseDate}
+              onSale={book.onSale}
             />
           ))}
       </div>

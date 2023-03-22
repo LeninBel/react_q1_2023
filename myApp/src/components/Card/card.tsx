@@ -8,13 +8,15 @@ interface IProps {
   category: string;
   author: string;
   releaseDate: string | undefined;
+  onSale: boolean;
 }
 
 class Card extends React.Component<IProps> {
   render() {
-    const { title, image, category, author, releaseDate } = this.props;
+    const { title, image, category, author, releaseDate, onSale } = this.props;
     return (
       <div className="card">
+        {onSale && <div className="card__sale">Sale</div>}
         <img src={image} alt="book_cover" className="card__image" />
         <div className="card_content">
           <div className="card_content__header">

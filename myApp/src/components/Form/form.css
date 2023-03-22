@@ -70,6 +70,13 @@ input[type="file"] {
     color:red;
 }
 
-.form__input--error, .form__upload--error {
+
+
+.radio_group{
+    border-radius: 10px;
+    border: 1px #E2E6EE solid;
+    box-shadow: 0px 4px 5px #E2E6EE;
+}
+.form__input--error, .form__upload--error, .radio_group--error {
     border: 1px red solid;
 }

@@ -10,6 +10,8 @@ interface IFormData {
   category: string;
   uploadFile: File | null | undefined;
   agree: boolean;
+  forSale: boolean;
+  notForSale: boolean;
 }
 
 interface IFormErrorData {
@@ -19,6 +21,7 @@ interface IFormErrorData {
   category: boolean;
   uploadFile: boolean;
   agree: boolean;
+  forSale: boolean;
 }
 
 interface IState {
@@ -41,6 +44,7 @@ class FormContainer extends React.Component<IProps, IState> {
         category: false,
         uploadFile: false,
         agree: false,
+        forSale: false,
       },
     };
 
@@ -58,6 +62,7 @@ class FormContainer extends React.Component<IProps, IState> {
         category: formData.category,
         image: formData.uploadFile != null ? URL.createObjectURL(formData.uploadFile) : '',
         releaseDate: formData.releaseDate,
+        onSale: formData.forSale,
       };
 
       const { addBook } = this.props;
@@ -73,6 +78,7 @@ class FormContainer extends React.Component<IProps, IState> {
       category: false,
       uploadFile: false,
       agree: false,
+      forSale: false,
     };
     currentErrors.title = isEmpty(formData.title);
     currentErrors.author = isEmpty(formData.author);
@@ -81,6 +87,7 @@ class FormContainer extends React.Component<IProps, IState> {
     currentErrors.category = isEmpty(formData.category);
     currentErrors.uploadFile = formData.uploadFile == null;
     currentErrors.agree = !formData.agree;
+    currentErrors.forSale = formData.forSale === formData.notForSale;
     this.setState(() => ({
       errors: currentErrors,
     }));
