@@ -8,6 +8,7 @@ const cardData = {
   image: 'TestImage',
   category: 'TestCategory',
   author: 'TestAuthor',
+  releaseDate: '22-03-2023',
 };
 
 describe('Card', () => {
@@ -18,6 +19,8 @@ describe('Card', () => {
         category={cardData.category}
         image={cardData.image}
         author={cardData.author}
+        releaseDate={cardData.releaseDate}
+        onSale
       />
     );
   });
@@ -32,5 +35,12 @@ describe('Card', () => {
 
   it('renders book author', () => {
     expect(screen.getByTestId('author')).toHaveTextContent(`by ${cardData.author}`);
+  });
+  it('renders book releaseDate', () => {
+    expect(screen.getByTestId('releaseDate')).toHaveTextContent(cardData.releaseDate);
+  });
+
+  it('renders book onSale', () => {
+    expect(screen.getByTestId('onSale')).toHaveTextContent('Sale');
   });
 });

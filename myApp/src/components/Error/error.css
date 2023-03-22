@@ -2,15 +2,11 @@
     color: red;
     font-size: x-small;
     position: relative;
-
+    display: none;
 }
 
 .show {
     display: block;
-    }
-
-div[class^="error"]:not(.show) {
-display: none;
 }
 
 .error_content{

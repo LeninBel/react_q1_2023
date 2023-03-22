@@ -1,6 +1,6 @@
 import React from 'react';
 import Form from '../form';
-import { isDateInPast, isEmpty } from '../validationRules';
+import { isDateInPast, isEmpty, isStartWithUpperCase } from '../validationRules';
 import { Book } from '../../../data/mockedData';
 
 interface IFormData {
@@ -81,7 +81,7 @@ class FormContainer extends React.Component<IProps, IState> {
       forSale: false,
     };
     currentErrors.title = isEmpty(formData.title);
-    currentErrors.author = isEmpty(formData.author);
+    currentErrors.author = isEmpty(formData.author) || !isStartWithUpperCase(formData.author);
     currentErrors.releaseDate =
       isEmpty(formData.releaseDate) || !isDateInPast(formData.releaseDate);
     currentErrors.category = isEmpty(formData.category);

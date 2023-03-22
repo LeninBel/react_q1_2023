@@ -14,13 +14,7 @@ export default defineConfig({
     setupFiles: ['./src/setupTests.ts'],
     coverage: {
       all: true,
-      exclude: [
-        'src/App.tsx',
-        'vite.config.ts',
-        'src/main.tsx',
-        'src/vite-env.d.ts',
-        'src/data/mockedData.ts',
-      ],
+      exclude: ['src/App.tsx', 'vite.config.ts', 'src/main.tsx', 'src/vite-env.d.ts', 'src/data'],
     },
   },
 });

@@ -11,7 +11,7 @@ class Error extends React.Component<IProps> {
   render() {
     const { show, error } = this.props;
     return (
-      <div className={`error ${show ? 'show' : ''}`}>
+      <div className={`error ${show ? 'show' : ''}`} data-testid="error">
         <p className="error_content">{error}</p>
       </div>
     );

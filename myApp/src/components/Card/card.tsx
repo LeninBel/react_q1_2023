@@ -16,7 +16,11 @@ class Card extends React.Component<IProps> {
     const { title, image, category, author, releaseDate, onSale } = this.props;
     return (
       <div className="card">
-        {onSale && <div className="card__sale">Sale</div>}
+        {onSale && (
+          <div className="card__sale" data-testid="onSale">
+            Sale
+          </div>
+        )}
         <img src={image} alt="book_cover" className="card__image" />
         <div className="card_content">
           <div className="card_content__header">
@@ -30,7 +34,11 @@ class Card extends React.Component<IProps> {
           <div className="card_content__footer">
             <hr />
             <p className="card_content__author" data-testid="author">{`by ${author}`}</p>
-            {releaseDate && <p className="card_content__author">Released: {releaseDate}</p>}
+            {releaseDate && (
+              <p className="card_content__author" data-testid="releaseDate">
+                Released: {releaseDate}
+              </p>
+            )}
           </div>
         </div>
       </div>

@@ -182,7 +182,7 @@ class Form extends React.Component<IProps> {
               forwardRef={this.agreeCheckboxRef}
             />
           </div>
-          <button className="form__submit" type="submit">
+          <button className="form__submit" type="submit" data-testid="submit">
             Submit
           </button>
         </form>
