@@ -142,7 +142,7 @@ class Form extends React.Component<IProps> {
               forwardRef={this.categoryRef}
               options={Categories}
             />
-            <Error error="Category date is invalid" show={category} />
+            <Error error="Category is invalid" show={category} />
           </div>
           <div className="form__control">
             <fieldset className={`radio_group ${forSale ? 'radio_group--error' : ''}`}>
@@ -154,9 +154,9 @@ class Form extends React.Component<IProps> {
                 forwardRef={this.forSaleRadioRef}
               />
               <FormRadio
-                id="notForSale"
+                id="forSale"
                 label="No"
-                name="notForSale"
+                name="forSale"
                 forwardRef={this.notForSaleRadioRef}
               />
             </fieldset>

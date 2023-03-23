@@ -1,5 +1,5 @@
 import React, { LegacyRef } from 'react';
-import '../form.css';
+import './formRadio.css';
 
 interface IFormRadioProps {
   label: string;
@@ -15,7 +15,9 @@ class FormRadio extends React.Component<IFormRadioProps> {
     return (
       <div>
         <input type="radio" id={id} name={name} ref={forwardRef} />
-        <label htmlFor={id}>{label}</label>
+        <label className="radio__label" htmlFor={id}>
+          {label}
+        </label>
       </div>
     );
   }
