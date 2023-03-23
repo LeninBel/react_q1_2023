@@ -3,15 +3,14 @@ import React from 'react';
 import './error.css';
 
 interface IProps {
-  show: boolean;
   error: string;
 }
 
 class Error extends React.Component<IProps> {
   render() {
-    const { show, error } = this.props;
+    const { error } = this.props;
     return (
-      <div className={`error ${show ? 'show' : ''}`} data-testid="error">
+      <div className="error" data-testid="error">
         <p className="error_content">{error}</p>
       </div>
     );

@@ -83,7 +83,7 @@ class FormContainer extends React.Component<IProps, IState> {
     currentErrors.title = isEmpty(formData.title);
     currentErrors.author = isEmpty(formData.author) || !isStartWithUpperCase(formData.author);
     currentErrors.releaseDate =
-      isEmpty(formData.releaseDate) || !isDateInPast(formData.releaseDate);
+      isEmpty(formData.releaseDate) || !isDateInPast(Date.now(), formData.releaseDate);
     currentErrors.category = isEmpty(formData.category);
     currentErrors.uploadFile = formData.uploadFile == null;
     currentErrors.agree = !formData.agree;

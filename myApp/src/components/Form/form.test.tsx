@@ -5,7 +5,7 @@ import Form from './form';
 
 const onSubmit = vi.fn();
 
-const errors = {
+const noErrors = {
   title: false,
   author: false,
   releaseDate: false,
@@ -15,7 +15,23 @@ const errors = {
   forSale: false,
 };
 
+const errors = {
+  title: true,
+  author: true,
+  releaseDate: true,
+  category: true,
+  uploadFile: true,
+  agree: true,
+  forSale: true,
+};
+
 describe('Form', () => {
+  it('should not render errors', () => {
+    render(<Form errors={noErrors} onSubmit={onSubmit} />);
+
+    expect(screen.queryByTestId('error')).toBeFalsy();
+  });
+
   it('should render errors', () => {
     render(<Form errors={errors} onSubmit={onSubmit} />);
 

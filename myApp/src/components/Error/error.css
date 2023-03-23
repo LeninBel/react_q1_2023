@@ -2,10 +2,6 @@
     color: red;
     font-size: x-small;
     position: relative;
-    display: none;
-}
-
-.show {
     display: block;
 }
 

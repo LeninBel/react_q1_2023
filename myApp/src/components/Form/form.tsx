@@ -109,7 +109,7 @@ class Form extends React.Component<IProps> {
               type="text"
               forwardRef={this.titleRef}
             />
-            <Error error="Title is invalid" show={title} />
+            {title && <Error error="Title is invalid" />}
           </div>
           <div className="form__control">
             <FormInput
@@ -120,7 +120,7 @@ class Form extends React.Component<IProps> {
               type="text"
               forwardRef={this.authorRef}
             />
-            <Error error="Author is invalid" show={author} />
+            {author && <Error error="Author is invalid" />}
           </div>
           <div className="form__control">
             <FormInput
@@ -131,7 +131,7 @@ class Form extends React.Component<IProps> {
               type="date"
               forwardRef={this.releaseDateRef}
             />
-            <Error error="Release date is invalid" show={releaseDate} />
+            {releaseDate && <Error error="Release date is invalid" />}
           </div>
           <div className="form__control">
             <FormSelect
@@ -142,7 +142,7 @@ class Form extends React.Component<IProps> {
               forwardRef={this.categoryRef}
               options={Categories}
             />
-            <Error error="Category is invalid" show={category} />
+            {category && <Error error="Category is invalid" />}
           </div>
           <div className="form__control">
             <fieldset className={`radio_group ${forSale ? 'radio_group--error' : ''}`}>
@@ -160,7 +160,7 @@ class Form extends React.Component<IProps> {
                 forwardRef={this.notForSaleRadioRef}
               />
             </fieldset>
-            <Error error="Please select an option" show={forSale} />
+            {forSale && <Error error="Please select an option" />}
           </div>
 
           <div className="form__control">
@@ -171,7 +171,7 @@ class Form extends React.Component<IProps> {
               label="Upload book cover"
               forwardRef={this.uploadFileRef}
             />
-            <Error error="File is not found" show={uploadFile} />
+            {uploadFile && <Error error="File is not found" />}
           </div>
           <div className="form__control">
             <FormCheckbox
