@@ -154,7 +154,7 @@ class Form extends React.Component<IProps> {
                 forwardRef={this.forSaleRadioRef}
               />
               <FormRadio
-                id="forSale"
+                id="notForSale"
                 label="No"
                 name="forSale"
                 forwardRef={this.notForSaleRadioRef}
