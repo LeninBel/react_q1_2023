@@ -35,7 +35,7 @@ describe('Form', () => {
   it('should render errors', () => {
     render(<Form errors={errors} onSubmit={onSubmit} />);
 
-    expect(screen.getAllByTestId('error').length).toBe(6);
+    expect(screen.getAllByTestId('error').length).toBe(7);
   });
 
   it('should call onSubmit method', () => {

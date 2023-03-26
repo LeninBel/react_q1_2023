@@ -33,6 +33,7 @@
 }
 
 .form__submit {
+    margin-top: 10px;;
     font-weight: 600;
     font-size: larger;
     background-color: #288FB4;

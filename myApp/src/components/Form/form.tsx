@@ -181,6 +181,7 @@ class Form extends React.Component<IProps> {
               name="personalData"
               forwardRef={this.agreeCheckboxRef}
             />
+            {agree && <Error error="Confirmation is required" />}
           </div>
           <button className="form__submit" type="submit" data-testid="submit">
             Submit
