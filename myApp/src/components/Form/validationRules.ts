@@ -9,6 +9,5 @@ export const isStartWithUpperCase = (value: string): boolean => {
 export const isDateInPast = (nowDate: number, value: string | undefined) => {
   if (value === undefined) return false;
   const date = +new Date(value);
-  console.log(value);
   return date <= nowDate;
 };
