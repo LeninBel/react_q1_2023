@@ -34,27 +34,4 @@ const FormInput = forwardRef<Ref, IFormInputProps>(function input(
   );
 });
 
-// class FormInput extends React.Component<IFormInputProps> {
-//   render() {
-//     const { hasError, id, name, type, label, forwardRef, onChange, onBlur } = this.props;
-
-//     return (
-//       <>
-//         <label htmlFor={id} className="form__label">
-//           {label}
-//         </label>
-//         <input
-//           className={`form__input ${hasError ? 'form__input--error' : ''}`}
-//           id={id}
-//           name={name}
-//           type={type}
-//           ref={forwardRef}
-//           onChange={onChange}
-//           onBlur={onBlur}
-//         />
-//       </>
-//     );
-//   }
-// }
-
 export default FormInput;

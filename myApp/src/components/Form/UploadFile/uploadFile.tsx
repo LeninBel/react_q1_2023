@@ -1,27 +1,36 @@
-import React, { LegacyRef } from 'react';
+import React, { ChangeEventHandler, forwardRef } from 'react';
 import '../form.css';
 
 interface IUploadFileProps {
   label: string;
-  id: string;
   name: string;
   hasError: boolean;
-  forwardRef: LegacyRef<HTMLInputElement>;
+  onChange: ChangeEventHandler<HTMLInputElement>;
+  onBlur: React.FocusEventHandler<HTMLInputElement>;
 }
 
-class UploadFile extends React.Component<IUploadFileProps> {
-  render() {
-    const { hasError, id, name, label, forwardRef } = this.props;
+type Ref = HTMLInputElement;
 
-    return (
-      <>
-        <label htmlFor={id} className={`form__upload ${hasError ? 'form__upload--error' : ''}`}>
-          {label}
-        </label>
-        <input id={id} name={name} type="file" ref={forwardRef} accept="image/png, image/jpeg" />
-      </>
-    );
-  }
-}
+const UploadFile = forwardRef<Ref, IUploadFileProps>(function upload(
+  { hasError, name, label, onChange, onBlur },
+  ref
+) {
+  return (
+    <>
+      <label htmlFor={name} className={`form__upload ${hasError ? 'form__upload--error' : ''}`}>
+        {label}
+      </label>
+      <input
+        id={name}
+        name={name}
+        type="file"
+        ref={ref}
+        accept="image/png, image/jpeg"
+        onChange={onChange}
+        onBlur={onBlur}
+      />
+    </>
+  );
+});
 
 export default UploadFile;

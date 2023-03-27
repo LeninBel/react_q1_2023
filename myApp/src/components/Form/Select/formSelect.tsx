@@ -1,4 +1,4 @@
-import React, { LegacyRef } from 'react';
+import React, { ChangeEventHandler, forwardRef, LegacyRef } from 'react';
 import '../form.css';
 
 interface IOption {
@@ -8,37 +8,40 @@ interface IOption {
 
 interface IFormSelectProps {
   label: string;
-  id: string;
   name: string;
   hasError: boolean;
-  forwardRef: LegacyRef<HTMLSelectElement>;
   options: Array<IOption>;
+  onChange: ChangeEventHandler<HTMLSelectElement>;
+  onBlur: React.FocusEventHandler<HTMLSelectElement>;
 }
 
-class FormSelect extends React.Component<IFormSelectProps> {
-  render() {
-    const { hasError, id, name, label, forwardRef, options } = this.props;
+type Ref = HTMLSelectElement;
 
-    return (
-      <>
-        <label htmlFor={id} className="form__label">
-          {label}
-        </label>
-        <select
-          className={`form__input ${hasError ? 'form__input--error' : ''}`}
-          id={id}
-          name={name}
-          ref={forwardRef}
-        >
-          {options.map(({ value, option }) => (
-            <option value={value} key={value}>
-              {option}
-            </option>
-          ))}
-        </select>
-      </>
-    );
-  }
-}
+const FormSelect = forwardRef<Ref, IFormSelectProps>(function select(
+  { hasError, name, options, label, onChange, onBlur },
+  ref
+) {
+  return (
+    <>
+      <label htmlFor={name} className="form__label">
+        {label}
+      </label>
+      <select
+        className={`form__input ${hasError ? 'form__input--error' : ''}`}
+        id={name}
+        name={name}
+        ref={ref}
+        onChange={onChange}
+        onBlur={onBlur}
+      >
+        {options.map(({ value, option }) => (
+          <option value={value} key={value}>
+            {option}
+          </option>
+        ))}
+      </select>
+    </>
+  );
+});
 
 export default FormSelect;
