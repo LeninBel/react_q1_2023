@@ -38,7 +38,7 @@ describe('validationRules', () => {
       const currentDate = new Date();
       const currentYear = currentDate.getFullYear();
       currentDate.setFullYear(currentYear + 1);
-      expect(isDateInPast(Date.now(), currentDate.toLocaleString())).toBeFalsy();
+      expect(isDateInPast(Date.now(), currentDate.toUTCString())).toBeFalsy();
     });
 
     it('should return false if date in undefined', () => {
