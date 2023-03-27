@@ -1,38 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header from '../../components/Header/header';
 import SearchBar from '../../components/Search/searchBar';
 import CardList from '../../components/CardList/cardList';
 import { getItem } from '../../services/localStorage/localStorageService';
 import books from '../../data/mockedData';
 
-interface IState {
-  searchValue: string;
-}
+function HomePage(): JSX.Element {
+  const [searchTerm, setSearchTerm] = useState(() => getItem('searchTerm') ?? '');
 
-class HomePage extends React.Component<Record<string, never>, IState> {
-  constructor(props: Record<string, never>) {
-    super(props);
-    const savedSearch = getItem('searchTerm') ?? '';
-    this.state = { searchValue: savedSearch };
-    this.handleInput = this.handleInput.bind(this);
-  }
+  const handleInput = (value: string) => {
+    return setSearchTerm(value);
+  };
 
-  handleInput(event: React.ChangeEvent<HTMLInputElement>) {
-    this.setState(() => {
-      return { searchValue: event.target.value };
-    });
-  }
-
-  render() {
-    const { searchValue } = this.state;
-    return (
-      <>
-        <Header title="Home" />
-        <SearchBar inputValue={searchValue} onChange={this.handleInput} />
-        <CardList books={books} searchTerm={searchValue} />
-      </>
-    );
-  }
+  return (
+    <>
+      <Header title="Home" />
+      <SearchBar inputValue={searchTerm} onChange={handleInput} />
+      <CardList books={books} searchTerm={searchTerm} />
+    </>
+  );
 }
 
 export default HomePage;
