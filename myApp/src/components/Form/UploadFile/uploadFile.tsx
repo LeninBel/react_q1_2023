@@ -28,6 +28,7 @@ const UploadFile = forwardRef<Ref, IUploadFileProps>(function upload(
         accept="image/png, image/jpeg"
         onChange={onChange}
         onBlur={onBlur}
+        data-testid="uploadFile"
       />
     </>
   );

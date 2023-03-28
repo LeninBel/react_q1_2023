@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, forwardRef, LegacyRef } from 'react';
+import React, { ChangeEventHandler, forwardRef } from 'react';
 import '../form.css';
 
 interface IOption {

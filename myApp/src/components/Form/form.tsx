@@ -121,10 +121,10 @@ function Form({ onSubmitForm }: IProps) {
             hasError={!!errors.uploadFile}
             label="Upload book cover"
             {...register('uploadFile', {
-              required: 'File is not found',
+              validate: (value) => value?.length === 1 ?? 'File is not found',
             })}
           />
-          {errors.uploadFile?.message && <Error error={errors.uploadFile.message} />}
+          {errors.uploadFile && <Error error="File is not found" />}
         </div>
         <div className="form__control">
           <FormCheckbox
