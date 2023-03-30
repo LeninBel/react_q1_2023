@@ -20,7 +20,7 @@ type FormData = {
   author: string;
   releaseDate: string;
   category: string;
-  forSale: boolean;
+  forSale: string;
   uploadFile: FileList | null | undefined;
   agree: boolean;
 };
@@ -41,7 +41,7 @@ function Form({ onSubmitForm }: IProps) {
       author: '',
       releaseDate: '',
       category: '',
-      forSale: false,
+      forSale: '',
       uploadFile: null,
       agree: false,
     });
@@ -102,6 +102,7 @@ function Form({ onSubmitForm }: IProps) {
             <FormRadio
               label="Yes"
               id="forSale"
+              value="yes"
               {...register('forSale', {
                 required: true,
               })}
@@ -109,6 +110,7 @@ function Form({ onSubmitForm }: IProps) {
             <FormRadio
               id="notForSale"
               label="No"
+              value="no"
               {...register('forSale', {
                 required: true,
               })}

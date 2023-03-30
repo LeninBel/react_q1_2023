@@ -37,7 +37,7 @@ describe('Form', () => {
         target: { value: '2020-02-12' },
       });
 
-      fireEvent.click(screen.getByRole('radio', { name: /Yes No/i }));
+      fireEvent.click(screen.getByRole('radio', { name: /Yes/i }));
 
       fireEvent.click(screen.getByRole('checkbox', { name: /I consent to my personal data/i }));
 

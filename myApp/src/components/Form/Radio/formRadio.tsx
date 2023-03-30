@@ -7,18 +7,27 @@ interface IFormRadioProps {
   id: string;
   onChange: ChangeEventHandler<HTMLInputElement>;
   onBlur: React.FocusEventHandler<HTMLInputElement>;
+  value: string;
 }
 
 type Ref = HTMLInputElement;
 
 const FormRadio = forwardRef<Ref, IFormRadioProps>(function radio(
-  { id, name, label, onChange, onBlur },
+  { id, name, label, onChange, onBlur, value },
   ref
 ) {
   return (
     <div>
-      <input type="radio" id={id} name={name} onChange={onChange} onBlur={onBlur} ref={ref} />
-      <label className="radio__label" htmlFor={name}>
+      <input
+        type="radio"
+        id={id}
+        name={name}
+        onChange={onChange}
+        onBlur={onBlur}
+        ref={ref}
+        value={value}
+      />
+      <label className="radio__label" htmlFor={id}>
         {label}
       </label>
     </div>

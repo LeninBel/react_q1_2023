@@ -17,7 +17,7 @@ const formData: FormData = {
   author: 'Book author',
   releaseDate: '12-02-2000',
   category: 'Java',
-  forSale: true,
+  forSale: 'yes',
   uploadFile: null,
   agree: true,
 };
@@ -27,7 +27,7 @@ type FormData = {
   author: string;
   releaseDate: string;
   category: string;
-  forSale: boolean;
+  forSale: string;
   uploadFile: FileList | null | undefined;
   agree: boolean;
 };

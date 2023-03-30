@@ -11,7 +11,7 @@ type FormData = {
   author: string;
   releaseDate: string;
   category: string;
-  forSale: boolean;
+  forSale: string;
   uploadFile: FileList | null | undefined;
   agree: boolean;
 };
@@ -24,7 +24,7 @@ function FormContainer({ addBook }: IProps) {
       category: formData.category,
       image: formData.uploadFile != null ? URL.createObjectURL(formData.uploadFile[0]) : '',
       releaseDate: formData.releaseDate,
-      onSale: formData.forSale,
+      onSale: formData.forSale === 'yes',
     };
     addBook(book);
   };
