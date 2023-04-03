@@ -15,4 +15,7 @@
   background-size: 1.5rem;
 }
 
-
+.searchBar__input--error{
+  border: 5px red solid;
+ 
+}

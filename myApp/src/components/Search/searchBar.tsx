@@ -1,35 +1,29 @@
-import React, { useEffect, useRef } from 'react';
-import { addItem } from '../../services/localStorage/localStorageService';
+import React, { KeyboardEventHandler, forwardRef } from 'react';
 
 import './searchBar.css';
 
 interface IProps {
-  inputValue: string;
-  onChange: (value: string) => void;
+  defaultValue: string;
+  onKeyDown: KeyboardEventHandler<HTMLInputElement>;
+  hasError: boolean;
 }
 
-function SearchBar({ inputValue, onChange }: IProps): JSX.Element {
-  const inputref = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    const currentInput = inputref.current;
-    return function saveInLs() {
-      addItem('searchTerm', currentInput?.value ?? '');
-    };
-  }, []);
-
+const SearchBar = forwardRef<HTMLInputElement, IProps>(function input(
+  { defaultValue, onKeyDown, hasError },
+  ref
+) {
   return (
     <div className="searchBar">
       <input
-        className="searchBar__input"
+        className={`searchBar__input ${hasError ? 'searchBar__input--error' : ''}`}
         type="text"
-        onChange={(e) => onChange(e.target.value)}
-        value={inputValue}
+        onKeyDown={onKeyDown}
+        defaultValue={defaultValue}
         data-testid="searchBar"
-        ref={inputref}
+        ref={ref}
       />
     </div>
   );
-}
+});
 
 export default SearchBar;
