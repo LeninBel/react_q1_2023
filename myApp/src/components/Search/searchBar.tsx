@@ -15,6 +15,7 @@ const SearchBar = forwardRef<HTMLInputElement, IProps>(function input(
   return (
     <div className="searchBar">
       <input
+        placeholder="Enter name"
         className={`searchBar__input ${hasError ? 'searchBar__input--error' : ''}`}
         type="text"
         onKeyDown={onKeyDown}

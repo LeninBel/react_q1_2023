@@ -3,11 +3,13 @@ import React from 'react';
 import './characterCard.css';
 
 interface IProps {
+  id: number;
   name: string;
   image: string;
+  onMoreClick: (id: number) => void;
 }
 
-function CharacterCard({ name, image }: IProps): JSX.Element {
+function CharacterCard({ name, image, onMoreClick, id }: IProps): JSX.Element {
   return (
     <div className="card">
       <img src={image} alt="book_cover" className="card__image" />
@@ -18,6 +20,9 @@ function CharacterCard({ name, image }: IProps): JSX.Element {
           </p>
         </div>
       </div>
+      <button onClick={() => onMoreClick(id)} type="button">
+        More Info
+      </button>
     </div>
   );
 }

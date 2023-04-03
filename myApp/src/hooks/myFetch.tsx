@@ -31,9 +31,11 @@ export function useFetchCharacters(search: string) {
 
         const resJson = await resultProm.json();
         const { results } = resJson;
-        const characters = results.map(({ id, name, image }: ICharacter) => {
-          return { id, name, image };
-        });
+        const characters = results.map(
+          ({ id, name, image, status, species, gender }: ICharacter) => {
+            return { id, name, image, status, species, gender };
+          }
+        );
 
         setResponse(characters);
         setError(false);
