@@ -3,11 +3,11 @@ import { ICharacter } from '../components/CharactersList/charactersList';
 
 const API_URL = 'https://rickandmortyapi.com/api/character/';
 
-export interface IUseFetchCharacters {
+export type UseFetchCharacters = {
   response: Array<ICharacter> | null;
   error: string;
   loading: boolean;
-}
+};
 
 export function useFetchCharacters(search: string) {
   const [response, setResponse] = useState<Array<ICharacter> | null>(null);

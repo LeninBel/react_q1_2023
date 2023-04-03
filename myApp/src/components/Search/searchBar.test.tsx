@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { describe, it, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import SearchBar from './searchBar';
-import { addItem } from '../../services/localStorage/localStorageService';
 
 vi.mock('../../services/localStorage/localStorageService', () => {
   return {
@@ -10,25 +9,30 @@ vi.mock('../../services/localStorage/localStorageService', () => {
   };
 });
 
-const onChangeMocked = vi.fn();
+const onKeyDownMocked = vi.fn();
+
+interface IProps {
+  hasError: boolean;
+  defaultValue: string;
+}
+
+function Component({ hasError, defaultValue }: IProps) {
+  const ref = useRef(null);
+  return (
+    <SearchBar
+      hasError={hasError}
+      defaultValue={defaultValue}
+      onKeyDown={onKeyDownMocked}
+      ref={ref}
+    />
+  );
+}
 
 describe('SearchBar', () => {
-  it('renders search bar with value', () => {
-    render(<SearchBar inputValue="test" onChange={onChangeMocked} />);
+  it('should invoke onKeyDown handler', () => {
+    render(<Component defaultValue="test" hasError />);
     const searchBar = screen.getByTestId('searchBar');
-    expect(searchBar).toHaveValue('test');
-  });
-
-  it('should invoke onchange handler', () => {
-    render(<SearchBar inputValue="test" onChange={onChangeMocked} />);
-    const searchBar = screen.getByTestId('searchBar');
-    fireEvent.change(searchBar, { target: { value: '23' } });
-    expect(onChangeMocked).toHaveBeenCalledTimes(1);
-  });
-
-  it('should invoke addItem while unmounting', () => {
-    const component = render(<SearchBar inputValue="test" onChange={onChangeMocked} />);
-    component.unmount();
-    expect(addItem).toBeCalledWith('searchTerm', 'test');
+    fireEvent.keyDown(searchBar, { key: 'Enter', code: 'Enter', charCode: 13 });
+    expect(onKeyDownMocked).toHaveBeenCalledTimes(1);
   });
 });
