@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../../components/Header/header';
 import SearchBar from '../../components/Search/searchBar';
 import CardList from '../../components/CardList/cardList';
@@ -6,11 +6,15 @@ import { getItem } from '../../services/localStorage/localStorageService';
 import books from '../../data/mockedData';
 
 function HomePage(): JSX.Element {
-  const [searchTerm, setSearchTerm] = useState(() => getItem('searchTerm') ?? '');
+  const [searchTerm, setSearchTerm] = useState('');
 
   const handleInput = (value: string) => {
     return setSearchTerm(value);
   };
+
+  useEffect(() => {
+    setSearchTerm(getItem('searchTerm') ?? '');
+  }, []);
 
   return (
     <>
