@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { describe, it, Mock, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import HomePage from './HomePage';
 import { getItem, addItem } from '../../services/localStorage/localStorageService';
-import { useFetchCharacters } from '../../hooks/myFetch';
+import { useFetchCharacters, UseFetchCharacters } from '../../hooks/myFetch';
 
 vi.mock('../../services/localStorage/localStorageService', () => {
   return {
@@ -33,7 +32,7 @@ describe('HomePage', () => {
   });
 
   it('renders title ', () => {
-    (useFetchCharacters as Mock<any>).mockReturnValue({
+    (useFetchCharacters as unknown as Mock<UseFetchCharacters[]>).mockReturnValue({
       loading: false,
       error: false,
       response: null,
@@ -48,7 +47,7 @@ describe('HomePage', () => {
   });
 
   it('should call getItem while first rendering', () => {
-    (useFetchCharacters as Mock<any>).mockReturnValue({
+    (useFetchCharacters as unknown as Mock<UseFetchCharacters[]>).mockReturnValue({
       loading: false,
       error: false,
       response: null,
@@ -62,7 +61,7 @@ describe('HomePage', () => {
   });
 
   it('should invoke addItem while unmounting', () => {
-    (useFetchCharacters as Mock<any>).mockReturnValue({
+    (useFetchCharacters as unknown as Mock<UseFetchCharacters[]>).mockReturnValue({
       loading: false,
       error: false,
       response: null,
@@ -80,7 +79,7 @@ describe('HomePage', () => {
   });
 
   it('should render Loading', async () => {
-    (useFetchCharacters as Mock<any>).mockReturnValue({
+    (useFetchCharacters as unknown as Mock<UseFetchCharacters[]>).mockReturnValue({
       loading: true,
       error: false,
       response: null,
@@ -93,7 +92,7 @@ describe('HomePage', () => {
     expect(screen.getByText('Loading...')).toBeInTheDocument();
   });
   it('should render FetchError', () => {
-    (useFetchCharacters as unknown as Mock<any>).mockReturnValue({
+    (useFetchCharacters as unknown as Mock<UseFetchCharacters[]>).mockReturnValue({
       loading: false,
       error: true,
       response: null,
@@ -107,7 +106,7 @@ describe('HomePage', () => {
   });
 
   it('should render results', () => {
-    (useFetchCharacters as Mock<any>).mockReturnValue({
+    (useFetchCharacters as unknown as Mock<UseFetchCharacters[]>).mockReturnValue({
       loading: false,
       error: false,
       response: results,
