@@ -1,49 +1,34 @@
 import React, { useState } from 'react';
 import Card from '../CharacterCard/characterCard';
 import Modal from '../CharacterModal/characterModal';
+import { ICharacters } from '../../hooks/myFetch';
 import './charactersList.css';
 
 interface IProps {
-  characters: Array<ICharacter> | null;
-}
-
-export interface ICharacter {
-  id: number;
-  name: string;
-  image: string;
-  status: string;
-  species: string;
-  gender: string;
+  characters: Array<ICharacters> | null;
 }
 
 function CharactersList({ characters }: IProps): JSX.Element {
-  const [selectedCard, setSelectedCard] = useState<ICharacter | null | undefined>(null);
+  const [selectedCard, setSelectedCard] = useState<number | undefined>(undefined);
 
   const handleMoreClick = (id: number) => {
-    const cardDetails = characters?.find((c) => c.id === id);
-    setSelectedCard(cardDetails);
+    setSelectedCard(id);
   };
 
   const onModalClose = () => {
-    setSelectedCard(null);
+    setSelectedCard(undefined);
   };
 
   return (
     <div className="results">
-      {characters &&
+      {characters == null ? (
+        <div>Not found</div>
+      ) : (
         characters.map(({ id, name, image }) => (
           <Card onMoreClick={handleMoreClick} id={id} key={id} name={name} image={image} />
-        ))}
-      {selectedCard && (
-        <Modal
-          gender={selectedCard.gender}
-          species={selectedCard.species}
-          status={selectedCard.status}
-          image={selectedCard.image}
-          onClose={onModalClose}
-          name={selectedCard.name}
-        />
+        ))
       )}
+      {selectedCard && <Modal id={selectedCard} onClose={onModalClose} />}
     </div>
   );
 }

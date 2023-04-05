@@ -1,30 +1,44 @@
-import React, { KeyboardEventHandler, forwardRef } from 'react';
+/* eslint-disable react/jsx-props-no-spreading */
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import FormInput from '../Form/Input/formInput';
+import Error from '../Error/error';
 
 import './searchBar.css';
 
 interface IProps {
-  defaultValue: string;
-  onKeyDown: KeyboardEventHandler<HTMLInputElement>;
-  hasError: boolean;
+  onSubmit: (value: string) => void;
+  value: string;
 }
 
-const SearchBar = forwardRef<HTMLInputElement, IProps>(function input(
-  { defaultValue, onKeyDown, hasError },
-  ref
-) {
+type FormData = {
+  search: string;
+};
+
+function SearchBar({ onSubmit, value }: IProps) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>();
+
+  const onEnter = (data: FormData) => {
+    onSubmit(data.search.trim());
+  };
+
   return (
-    <div className="searchBar">
-      <input
-        placeholder="Enter name"
-        className={`searchBar__input ${hasError ? 'searchBar__input--error' : ''}`}
+    <form onSubmit={handleSubmit(onEnter)} className="searchBar">
+      <FormInput
+        hasError={!!errors.search?.message}
+        label="Search"
         type="text"
-        onKeyDown={onKeyDown}
-        defaultValue={defaultValue}
-        data-testid="searchBar"
-        ref={ref}
+        {...register('search', {
+          value,
+        })}
       />
-    </div>
+      {errors.search?.message && <Error error={errors.search.message} />}
+    </form>
   );
-});
+}
 
 export default SearchBar;

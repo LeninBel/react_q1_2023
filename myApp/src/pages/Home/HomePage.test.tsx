@@ -1,9 +1,9 @@
 import React from 'react';
 import { describe, it, Mock, vi } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import HomePage from './HomePage';
-import { getItem, addItem } from '../../services/localStorage/localStorageService';
+import { getItem } from '../../services/localStorage/localStorageService';
 import { useFetchCharacters, UseFetchCharacters } from '../../hooks/myFetch';
 
 vi.mock('../../services/localStorage/localStorageService', () => {
@@ -35,7 +35,7 @@ describe('HomePage', () => {
     (useFetchCharacters as unknown as Mock<UseFetchCharacters[]>).mockReturnValue({
       loading: false,
       error: false,
-      response: null,
+      characters: null,
     });
     render(
       <BrowserRouter>
@@ -50,7 +50,7 @@ describe('HomePage', () => {
     (useFetchCharacters as unknown as Mock<UseFetchCharacters[]>).mockReturnValue({
       loading: false,
       error: false,
-      response: null,
+      characters: null,
     });
     render(
       <BrowserRouter>
@@ -60,29 +60,11 @@ describe('HomePage', () => {
     expect(getItem).toHaveBeenCalledWith('searchTerm');
   });
 
-  it('should invoke addItem while unmounting', () => {
-    (useFetchCharacters as unknown as Mock<UseFetchCharacters[]>).mockReturnValue({
-      loading: false,
-      error: false,
-      response: null,
-    });
-    const component = render(
-      <BrowserRouter>
-        <HomePage />
-      </BrowserRouter>
-    );
-
-    const searchBar = screen.getByTestId('searchBar');
-    fireEvent.change(searchBar, { target: { value: '23' } });
-    component.unmount();
-    expect(addItem).toBeCalledWith('searchTerm', '23');
-  });
-
   it('should render Loading', async () => {
     (useFetchCharacters as unknown as Mock<UseFetchCharacters[]>).mockReturnValue({
       loading: true,
       error: false,
-      response: null,
+      characters: null,
     });
     render(
       <BrowserRouter>
@@ -95,7 +77,7 @@ describe('HomePage', () => {
     (useFetchCharacters as unknown as Mock<UseFetchCharacters[]>).mockReturnValue({
       loading: false,
       error: true,
-      response: null,
+      characters: null,
     });
     render(
       <BrowserRouter>
@@ -109,7 +91,7 @@ describe('HomePage', () => {
     (useFetchCharacters as unknown as Mock<UseFetchCharacters[]>).mockReturnValue({
       loading: false,
       error: false,
-      response: results,
+      characters: results,
     });
 
     render(

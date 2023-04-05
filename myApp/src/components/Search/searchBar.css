@@ -1,21 +1,4 @@
 .searchBar{
   display: flex;
-  justify-content: center;
-}
-
-
-.searchBar__input{
-  font-size: 1.5rem;
-  width: 50%;
-  border-radius: 10px;
-  height: 2rem;
-  padding-left: 2.25rem;
-  padding-right: 1rem;
-  background: url("../../assets/search-solid.svg") no-repeat scroll 7px 7px;
-  background-size: 1.5rem;
-}
-
-.searchBar__input--error{
-  border: 5px red solid;
- 
+  flex-direction: column;
 }
