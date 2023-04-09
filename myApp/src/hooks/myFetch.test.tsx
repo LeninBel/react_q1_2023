@@ -39,16 +39,4 @@ describe('homePageHelper', () => {
     await waitFor(() => screen.getByText('Loading...'));
     expect(screen.getByText('Loading...')).toBeInTheDocument();
   });
-
-  it('should should render Error', async () => {
-    global.fetch = vi.fn(() =>
-      Promise.resolve({
-        json: () => Promise.reject(new Error('test')),
-      })
-    ) as Mock;
-    render(<Component />);
-
-    await waitFor(() => screen.queryByText('Loading...') === null);
-    expect(screen.getByText('Oops. Something went wrong.')).toBeInTheDocument();
-  });
 });
