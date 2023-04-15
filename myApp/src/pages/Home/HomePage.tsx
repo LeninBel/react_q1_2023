@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
 import Header from '../../components/Header/header';
 import SearchBar from '../../components/Search/searchBar';
 import CardList from '../../components/CharactersList/charactersList';
@@ -6,13 +8,14 @@ import { getItem, addItem } from '../../services/localStorage/localStorageServic
 import { useFetchCharacters } from '../../hooks/myFetch';
 import FetchError from '../../components/FetchError/fetchError';
 import Loading from '../../components/Loading/loading';
+import { saveSearch } from '../../store/searchSlice';
 
 function HomePage(): JSX.Element {
-  const [search, setSearch] = useState(() => getItem('searchTerm') ?? '');
+  const search = useSelector((state: RootState) => state.search);
+  const dispatch = useDispatch();
   const { loading, characters, error } = useFetchCharacters(search);
   const onSubmit = (searchValue: string) => {
-    setSearch(searchValue);
-    addItem('searchTerm', searchValue);
+    dispatch(saveSearch(searchValue));
   };
 
   return (

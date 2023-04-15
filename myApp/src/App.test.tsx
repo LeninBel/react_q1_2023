@@ -2,13 +2,17 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
+import { Provider } from 'react-redux';
+import { store } from './store/store';
 import App from './App';
 
 describe('App', () => {
   it('renders Home page', () => {
     render(
       <MemoryRouter initialEntries={['/']}>
-        <App />
+        <Provider store={store}>
+          <App />
+        </Provider>
       </MemoryRouter>
     );
     const header = screen.getByRole('heading');
@@ -19,7 +23,9 @@ describe('App', () => {
   it('renders Abount Us page', () => {
     render(
       <MemoryRouter initialEntries={['/aboutUs']}>
-        <App />
+        <Provider store={store}>
+          <App />
+        </Provider>
       </MemoryRouter>
     );
     const header = screen.getByRole('heading');
@@ -30,7 +36,9 @@ describe('App', () => {
   it('renders Form page', () => {
     render(
       <MemoryRouter initialEntries={['/form']}>
-        <App />
+        <Provider store={store}>
+          <App />
+        </Provider>
       </MemoryRouter>
     );
     const header = screen.getByRole('heading');
@@ -41,7 +49,9 @@ describe('App', () => {
   it('renders Not Found page', () => {
     render(
       <MemoryRouter initialEntries={['/notExistPage']}>
-        <App />
+        <Provider store={store}>
+          <App />
+        </Provider>
       </MemoryRouter>
     );
     const header = screen.getByRole('heading');

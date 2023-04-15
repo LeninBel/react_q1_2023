@@ -2,8 +2,9 @@ import React from 'react';
 import { describe, it, Mock, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { store } from '../../store/store';
 import HomePage from './HomePage';
-import { getItem } from '../../services/localStorage/localStorageService';
 import { useFetchCharacters, UseFetchCharacters } from '../../hooks/myFetch';
 
 vi.mock('../../services/localStorage/localStorageService', () => {
@@ -39,25 +40,13 @@ describe('HomePage', () => {
     });
     render(
       <BrowserRouter>
-        <HomePage />
+        <Provider store={store}>
+          <HomePage />
+        </Provider>
       </BrowserRouter>
     );
     const title = screen.getByRole('heading', { level: 1 });
     expect(title).toHaveTextContent('Home');
-  });
-
-  it('should call getItem while first rendering', () => {
-    (useFetchCharacters as unknown as Mock<UseFetchCharacters[]>).mockReturnValue({
-      loading: false,
-      error: false,
-      characters: null,
-    });
-    render(
-      <BrowserRouter>
-        <HomePage />
-      </BrowserRouter>
-    );
-    expect(getItem).toHaveBeenCalledWith('searchTerm');
   });
 
   it('should render Loading', async () => {
@@ -68,7 +57,9 @@ describe('HomePage', () => {
     });
     render(
       <BrowserRouter>
-        <HomePage />
+        <Provider store={store}>
+          <HomePage />
+        </Provider>
       </BrowserRouter>
     );
     expect(screen.getByText('Loading...')).toBeInTheDocument();
@@ -81,7 +72,9 @@ describe('HomePage', () => {
     });
     render(
       <BrowserRouter>
-        <HomePage />
+        <Provider store={store}>
+          <HomePage />
+        </Provider>
       </BrowserRouter>
     );
     expect(screen.getByTestId('fetch_error')).toBeInTheDocument();
@@ -96,7 +89,9 @@ describe('HomePage', () => {
 
     render(
       <BrowserRouter>
-        <HomePage />
+        <Provider store={store}>
+          <HomePage />
+        </Provider>
       </BrowserRouter>
     );
     const cardTitle = screen.getByText('MyTest');
