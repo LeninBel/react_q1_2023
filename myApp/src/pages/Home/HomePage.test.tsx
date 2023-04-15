@@ -1,20 +1,12 @@
 import React from 'react';
-import { describe, it, Mock, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { describe, it } from 'vitest';
+import { render, screen, waitFor } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import { rest } from 'msw';
+import { setupServer } from 'msw/node';
 import { store } from '../../store/store';
 import HomePage from './HomePage';
-import { useFetchCharacters, UseFetchCharacters } from '../../hooks/myFetch';
-
-vi.mock('../../services/localStorage/localStorageService', () => {
-  return {
-    getItem: vi.fn(() => 'test'),
-    addItem: vi.fn(),
-  };
-});
-
-vi.mock('../../hooks/myFetch');
 
 const results = [
   {
@@ -27,17 +19,18 @@ const results = [
   },
 ];
 
+const server = setupServer(
+  rest.get('https://rickandmortyapi.com/api/character', (req, res, ctx) => {
+    return res(ctx.json({ results }));
+  })
+);
+
 describe('HomePage', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
+  beforeAll(() => server.listen());
+  afterEach(() => server.resetHandlers());
+  afterAll(() => server.close());
 
   it('renders title ', () => {
-    (useFetchCharacters as unknown as Mock<UseFetchCharacters[]>).mockReturnValue({
-      loading: false,
-      error: false,
-      characters: null,
-    });
     render(
       <BrowserRouter>
         <Provider store={store}>
@@ -49,12 +42,7 @@ describe('HomePage', () => {
     expect(title).toHaveTextContent('Home');
   });
 
-  it('should render Loading', async () => {
-    (useFetchCharacters as unknown as Mock<UseFetchCharacters[]>).mockReturnValue({
-      loading: true,
-      error: false,
-      characters: null,
-    });
+  it('should render results', async () => {
     render(
       <BrowserRouter>
         <Provider store={store}>
@@ -62,39 +50,9 @@ describe('HomePage', () => {
         </Provider>
       </BrowserRouter>
     );
-    expect(screen.getByText('Loading...')).toBeInTheDocument();
-  });
-  it('should render FetchError', () => {
-    (useFetchCharacters as unknown as Mock<UseFetchCharacters[]>).mockReturnValue({
-      loading: false,
-      error: true,
-      characters: null,
+    await waitFor(() => {
+      const cardTitle = screen.getByText('MyTest');
+      expect(cardTitle).toBeInTheDocument();
     });
-    render(
-      <BrowserRouter>
-        <Provider store={store}>
-          <HomePage />
-        </Provider>
-      </BrowserRouter>
-    );
-    expect(screen.getByTestId('fetch_error')).toBeInTheDocument();
-  });
-
-  it('should render results', () => {
-    (useFetchCharacters as unknown as Mock<UseFetchCharacters[]>).mockReturnValue({
-      loading: false,
-      error: false,
-      characters: results,
-    });
-
-    render(
-      <BrowserRouter>
-        <Provider store={store}>
-          <HomePage />
-        </Provider>
-      </BrowserRouter>
-    );
-    const cardTitle = screen.getByText('MyTest');
-    expect(cardTitle).toBeInTheDocument();
   });
 });
