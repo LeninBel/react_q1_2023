@@ -1,34 +1,43 @@
-import React, { useEffect, useRef } from 'react';
-import { addItem } from '../../services/localStorage/localStorageService';
+/* eslint-disable react/jsx-props-no-spreading */
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import FormInput from '../Form/Input/formInput';
+import Error from '../Error/error';
 
 import './searchBar.css';
 
 interface IProps {
-  inputValue: string;
-  onChange: (value: string) => void;
+  onSubmit: (value: string) => void;
+  value: string;
 }
 
-function SearchBar({ inputValue, onChange }: IProps): JSX.Element {
-  const inputref = useRef<HTMLInputElement>(null);
+type FormData = {
+  search: string;
+};
 
-  useEffect(() => {
-    const currentInput = inputref.current;
-    return function saveInLs() {
-      addItem('searchTerm', currentInput?.value ?? '');
-    };
-  }, []);
+function SearchBar({ onSubmit, value }: IProps) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>();
+
+  const onEnter = (data: FormData) => {
+    onSubmit(data.search.trim());
+  };
 
   return (
-    <div className="searchBar">
-      <input
-        className="searchBar__input"
+    <form onSubmit={handleSubmit(onEnter)} className="searchBar">
+      <FormInput
+        hasError={!!errors.search?.message}
+        label="Search"
         type="text"
-        onChange={(e) => onChange(e.target.value)}
-        value={inputValue}
-        data-testid="searchBar"
-        ref={inputref}
+        {...register('search', {
+          value,
+        })}
       />
-    </div>
+      {errors.search?.message && <Error error={errors.search.message} />}
+    </form>
   );
 }
 

@@ -1,26 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
 import Header from '../../components/Header/header';
 import SearchBar from '../../components/Search/searchBar';
-import CardList from '../../components/CardList/cardList';
-import { getItem } from '../../services/localStorage/localStorageService';
-import books from '../../data/mockedData';
+import CardList from '../../components/CharactersList/charactersList';
+import FetchError, { IError } from '../../components/FetchError/fetchError';
+import Loading from '../../components/Loading/loading';
+import { saveSearch } from '../../store/searchSlice';
+import { useGetCharactersByNameQuery } from '../../services/cartoonApi/cartoonApi';
 
 function HomePage(): JSX.Element {
-  const [searchTerm, setSearchTerm] = useState('');
-
-  const handleInput = (value: string) => {
-    return setSearchTerm(value);
+  const search = useSelector((state: RootState) => state.search);
+  const dispatch = useDispatch();
+  const { data, error, isLoading } = useGetCharactersByNameQuery(search);
+  const onSubmit = (searchValue: string) => {
+    dispatch(saveSearch(searchValue));
   };
-
-  useEffect(() => {
-    setSearchTerm(getItem('searchTerm') ?? '');
-  }, []);
 
   return (
     <>
       <Header title="Home" />
-      <SearchBar inputValue={searchTerm} onChange={handleInput} />
-      <CardList books={books} searchTerm={searchTerm} />
+      <SearchBar onSubmit={onSubmit} value={search} />
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <CardList status={(error as IError)?.status} characters={data?.results ?? []} />
+      )}
+      {error && <FetchError status={(error as IError)?.status} />}
     </>
   );
 }
