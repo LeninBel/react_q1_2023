@@ -1,0 +1,10 @@
+.fetch_error {
+    background-color: lightcoral;
+    border-radius: 10px;
+    height: 2rem;
+    text-align: center;
+}
+
+.fetch_error >p {
+    color:darkred;
+}

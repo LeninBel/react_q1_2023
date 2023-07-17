@@ -1,0 +1,12 @@
+.error {
+    color: red;
+    font-size: x-small;
+    position: relative;
+    display: block;
+}
+
+.error_content{
+    position: absolute;
+    margin: 0;
+    right: 0;
+}
