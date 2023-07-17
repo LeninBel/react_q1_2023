@@ -5,10 +5,11 @@ import { ICharacters } from '../../hooks/myFetch';
 import './charactersList.css';
 
 interface IProps {
-  characters: Array<ICharacters> | null;
+  characters: Array<ICharacters>;
+  status: number | undefined;
 }
 
-function CharactersList({ characters }: IProps): JSX.Element {
+function CharactersList({ characters, status }: IProps): JSX.Element {
   const [selectedCard, setSelectedCard] = useState<number | undefined>(undefined);
 
   const handleMoreClick = (id: number) => {
@@ -21,7 +22,7 @@ function CharactersList({ characters }: IProps): JSX.Element {
 
   return (
     <div className="results">
-      {characters == null ? (
+      {status && status === 404 ? (
         <div>Not found</div>
       ) : (
         characters.map(({ id, name, image }) => (
