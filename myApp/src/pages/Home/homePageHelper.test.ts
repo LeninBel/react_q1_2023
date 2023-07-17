@@ -1,18 +1,23 @@
 import { describe, it } from 'vitest';
 import filterBooks from './homePageHelper';
+import { Book } from '../../data/mockedData';
 
-const books = [
+const books: Array<Book> = [
   {
     title: 'Python for Finance Cookbook',
     image: '3.jpeg',
     category: 'Python',
     author: 'Eryk Lewinson',
+    releaseDate: '23-23-2003',
+    onSale: true,
   },
   {
     title: 'JavaScript and jQuery',
     image: '7.jpeg',
     category: 'jQuery',
     author: 'Jon Duckett',
+    releaseDate: '23-23-2003',
+    onSale: false,
   },
 ];
 

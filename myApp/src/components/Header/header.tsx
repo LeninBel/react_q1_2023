@@ -21,6 +21,9 @@ class Header extends React.Component<HeaderProps> {
           <Link to="/aboutUs" data-testid="aboutUsLink">
             About Us
           </Link>
+          <Link to="/form" data-testid="formLink">
+            Form
+          </Link>
         </nav>
       </header>
     );

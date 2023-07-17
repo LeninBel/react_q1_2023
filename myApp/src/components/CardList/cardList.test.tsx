@@ -25,7 +25,7 @@ vi.mock('../../data/mockedData', () => {
 
 describe('CardList', () => {
   beforeEach(() => {
-    render(<CardList searchTerm="" />);
+    render(<CardList books={books} searchTerm="" />);
   });
 
   it('renders all books category', () => {
