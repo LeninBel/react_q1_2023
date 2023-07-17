@@ -1,38 +1,34 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
 import Header from '../../components/Header/header';
 import SearchBar from '../../components/Search/searchBar';
-import CardList from '../../components/CardList/cardList';
-import { getItem } from '../../services/localStorage/localStorageService';
-import books from '../../data/mockedData';
+import CardList from '../../components/CharactersList/charactersList';
+import FetchError, { IError } from '../../components/FetchError/fetchError';
+import Loading from '../../components/Loading/loading';
+import { saveSearch } from '../../store/searchSlice';
+import { useGetCharactersByNameQuery } from '../../services/cartoonApi/cartoonApi';
 
-interface IState {
-  searchValue: string;
-}
+function HomePage(): JSX.Element {
+  const search = useSelector((state: RootState) => state.search);
+  const dispatch = useDispatch();
+  const { data, error, isLoading } = useGetCharactersByNameQuery(search);
+  const onSubmit = (searchValue: string) => {
+    dispatch(saveSearch(searchValue));
+  };
 
-class HomePage extends React.Component<Record<string, never>, IState> {
-  constructor(props: Record<string, never>) {
-    super(props);
-    const savedSearch = getItem('searchTerm') ?? '';
-    this.state = { searchValue: savedSearch };
-    this.handleInput = this.handleInput.bind(this);
-  }
-
-  handleInput(event: React.ChangeEvent<HTMLInputElement>) {
-    this.setState(() => {
-      return { searchValue: event.target.value };
-    });
-  }
-
-  render() {
-    const { searchValue } = this.state;
-    return (
-      <>
-        <Header title="Home" />
-        <SearchBar inputValue={searchValue} onChange={this.handleInput} />
-        <CardList books={books} searchTerm={searchValue} />
-      </>
-    );
-  }
+  return (
+    <>
+      <Header title="Home" />
+      <SearchBar onSubmit={onSubmit} value={search} />
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <CardList status={(error as IError)?.status} characters={data?.results ?? []} />
+      )}
+      {error && <FetchError status={(error as IError)?.status} />}
+    </>
+  );
 }
 
 export default HomePage;

@@ -1,33 +1,44 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import { addItem } from '../../services/localStorage/localStorageService';
+import { useForm } from 'react-hook-form';
+import FormInput from '../Form/Input/formInput';
+import Error from '../Error/error';
 
 import './searchBar.css';
 
 interface IProps {
-  inputValue: string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onSubmit: (value: string) => void;
+  value: string;
 }
 
-class SearchBar extends React.Component<IProps> {
-  componentWillUnmount(): void {
-    const { inputValue } = this.props;
-    addItem('searchTerm', inputValue);
-  }
+type FormData = {
+  search: string;
+};
 
-  render() {
-    const { inputValue, onChange } = this.props;
-    return (
-      <div className="searchBar">
-        <input
-          className="searchBar__input"
-          type="text"
-          onChange={onChange}
-          value={inputValue}
-          data-testid="searchBar"
-        />
-      </div>
-    );
-  }
+function SearchBar({ onSubmit, value }: IProps) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>();
+
+  const onEnter = (data: FormData) => {
+    onSubmit(data.search.trim());
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onEnter)} className="searchBar">
+      <FormInput
+        hasError={!!errors.search?.message}
+        label="Search"
+        type="text"
+        {...register('search', {
+          value,
+        })}
+      />
+      {errors.search?.message && <Error error={errors.search.message} />}
+    </form>
+  );
 }
 
 export default SearchBar;

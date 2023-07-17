@@ -45,4 +45,14 @@
 }
 
 
+.card button {
+    cursor: pointer;
+    padding: 10px 0;
+    font-size: 1rem;
+}
+
+.card button:hover {
+    background-color: rgb(200, 203, 207);
+}
+
 
